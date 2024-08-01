@@ -30,9 +30,28 @@ class ProductPage(Page):
     def verify_title(self):
         self.verify_text("Products", *self.title_products)
 
+    def get_all_product_elements(self):
+        titles = self.find_elements(*self.product_card_title)
+        descriptions = self.find_elements(*self.product_card_desc)
+        prices = self.find_elements(*self.product_card_price)
+        return zip(titles, descriptions, prices)
 
+    def verify_all_products_have_title_desc_price(self):
+        for title, description, price in self.get_all_product_elements():
+            assert title.text, f'Error! Product is missing a title.'
+            assert description.text, f'Error! Product is missing a description'
+            assert price.text, f'Error! Product is missing a price'
 
+    def verify_cart_icon(self):
+        self.verify_item_visible(*self.cart_icon)
 
+    def verify_cart_badge_number(self):
+        self.add_to_cart_all_items()
+        badge = self.find_element(*self.cart_badge)
+        assert badge.text == '6', f'Error! Cart badge has {badge.text} number but 6 products was added.'
+
+    def verify_filter_on_the_page(self):
+        self.verify_item_visible(*self.filter)
 
     def verify_filter_az(self):
         dropdown_filter = self.find_element(*self.filter)
