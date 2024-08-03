@@ -35,42 +35,38 @@ class CheckoutPage(Page):
         self.click(*self.checkout_btn)
         self.verify_item_visible(*self.checkout_info)
 
+    def fill_checkout_form(self, first_name=FIRST_NAME, last_name=LAST_NAME, zip_code=ZIP_CODE):
+        self.input_text(first_name, *self.first_name_field)
+        self.input_text(last_name, *self.last_name_field)
+        self.input_text(zip_code, *self.zip_code_field)
+
     def verify_checkout_form_info(self):
         self.click(*self.checkout_btn)
-        self.input_text(FIRST_NAME, *self.first_name_field)
-        self.input_text(LAST_NAME, *self.last_name_field)
-        self.input_text(ZIP_CODE, *self.zip_code_field)
+        self.fill_checkout_form()
         self.click(*self.continue_btn)
         self.verify_url_matches("https://www.saucedemo.com/checkout-step-two.html")
 
-    def verify_error_message_empty_fields(self):
+    def verify_error_message(self, first_name='', last_name='', zip_code=''):
         self.click(*self.checkout_btn)
+        self.fill_checkout_form(first_name, last_name, zip_code)
         self.click(*self.continue_btn)
         self.verify_item_visible(*self.error_message)
+
+    def verify_error_message_empty_fields(self):
+        self.verify_error_message()
 
     def verify_error_message_empty_fn_field(self):
-        self.click(*self.checkout_btn)
-        self.input_text(LAST_NAME, *self.last_name_field)
-        self.input_text(ZIP_CODE, *self.zip_code_field)
-        self.click(*self.continue_btn)
-        self.verify_item_visible(*self.error_message)
+        self.verify_error_message(last_name=LAST_NAME, zip_code=ZIP_CODE)
 
     def verify_error_message_empty_ln_field(self):
-        self.click(*self.checkout_btn)
-        self.input_text(FIRST_NAME, *self.last_name_field)
-        self.input_text(ZIP_CODE, *self.zip_code_field)
-        self.click(*self.continue_btn)
-        self.verify_item_visible(*self.error_message)
+        self.verify_error_message(first_name=FIRST_NAME, zip_code=ZIP_CODE)
 
     def verify_error_message_empty_zip_field(self):
-        self.click(*self.checkout_btn)
-        self.input_text(FIRST_NAME, *self.last_name_field)
-        self.input_text(LAST_NAME, *self.last_name_field)
-        self.click(*self.continue_btn)
-        self.verify_item_visible(*self.error_message)
+        self.verify_error_message(first_name=FIRST_NAME, last_name=LAST_NAME)
 
     def verify_happy_path_checkout_second_step(self):
-        self.verify_checkout_form_info()
+        self.click(*self.checkout_btn)
+        self.fill_checkout_form()
         self.click(*self.finish_btn)
         self.verify_text(SUCCESS_MSG, *self.success_msg)
 

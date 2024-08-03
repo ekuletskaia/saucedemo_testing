@@ -1,8 +1,10 @@
 from selenium.webdriver.common.by import By
+from pages.base_page import Page
 
 
-class HomePage:
+class HomePage(Page):
     def __init__(self, driver):
+        super().__init__(driver)
         self.driver = driver
         self.page_title = (By.CSS_SELECTOR, "title")
         self.logout_button = (By.ID, "logout-button")
@@ -11,4 +13,4 @@ class HomePage:
         return self.driver.find_element(*self.page_title).text
 
     def click_logout_button(self):
-        self.driver.find_element(*self.logout_button).click()
+        self.click(*self.logout_button)

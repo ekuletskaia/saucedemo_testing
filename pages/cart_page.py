@@ -15,25 +15,30 @@ class CartPage(Page):
         self.checkout_btn = (By.ID, "checkout")
 
     def go_to_cart_page(self):
+        """Navigate to the cart page."""
         self.click(*self.cart_btn)
         self.verify_url_matches("https://www.saucedemo.com/cart.html")
 
     def click_continue_shopping_btn(self):
+        """Click the 'Continue Shopping' button and verify navigation back to inventory page."""
         self.click(*self.continue_shopping_btn)
         self.verify_url_matches("https://www.saucedemo.com/inventory.html")
 
     def add_to_cart(self):
+        """Add an item to the cart and verify it is added."""
         self.wait_until_clickable_click(*self.add_to_cart_btn_backpack)
         self.click(*self.cart_btn)
         self.verify_item_visible(*self.cart_item)
 
-    def verify_items_in_the_cart(self):
+    def verify_items_in_the_cart(self, expected_count=6):
+        """Verify the number of items in the cart matches the expected count."""
         self.go_to_cart_page()
         item_list = self.find_elements(*self.cart_item)
-        print(f'Items in the cart:{len(item_list)}')
-        assert len(item_list) == 6, "There should be 6 items in the cart"
+        print(f'Items in the cart: {len(item_list)}')
+        assert len(item_list) == expected_count, "There should be {expected_count} items in the cart"
 
     def remove_item_from_cart(self):
+        """Remove an item from the cart and verify it is removed."""
         self.click(*self.remove_btn)
         self.verify_item_disappear(*self.cart_item)
 
