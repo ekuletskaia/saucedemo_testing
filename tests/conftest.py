@@ -44,4 +44,3 @@ def setup_cart_and_checkout(login):
     cart_page.add_to_cart()
     checkout_page = CheckoutPage(driver)
     return checkout_page
-

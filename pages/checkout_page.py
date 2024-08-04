@@ -67,6 +67,7 @@ class CheckoutPage(Page):
     def verify_happy_path_checkout_second_step(self):
         self.click(*self.checkout_btn)
         self.fill_checkout_form()
+        self.click(*self.continue_btn)
         self.click(*self.finish_btn)
         self.verify_text(SUCCESS_MSG, *self.success_msg)
 

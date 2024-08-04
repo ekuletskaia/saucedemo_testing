@@ -84,6 +84,11 @@ Saucedemo_Test_Automation/
     pytest --html=report.html
     ```
    
+3. **Open HTML report:**
+
+
+      `saucedemo_testing/report.html`
+   
 ## Test Cases
 
 The project includes a comprehensive suite of test cases covering various functionalities of the Saucedemo website. Below is a summary of the different categories of test cases:
@@ -130,4 +135,9 @@ The fixtures are defined in `conftest.py` and `utils/config.py`.
 ### utils/config.py:
 
 - Contains configuration data such as URLs, valid/invalid credentials, and user information.
+
+## Test Results
+
+The following screenshot shows the results of running all the test cases:
+![Test Results](assets/test_results.png)
 
